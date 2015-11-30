@@ -16,9 +16,7 @@ var get = function(req, res) {
     AllOrder.getData(url)
         .then(function(response) {
           var data = response.
-            for (var i =0 ; i < response.length ; i++) {
-              response[i]
-            };
+            
             res.status(200).send(response);
         }, function(err) {
             res.status(500).send(err);
