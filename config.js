@@ -5,7 +5,11 @@
 module.exports = {
 
   oms: {
-    url: "https://devoptimusprime.ailiens.com",
-    apiversion:  '/api/v1.01'
+    url: "172.16.2.224",
+    apiversion:  '/api/v1.01',
+    options: {
+      host: '172.16.2.224',
+      port: 8080
+    }
   }
 };

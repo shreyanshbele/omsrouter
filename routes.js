@@ -18,5 +18,7 @@ module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/allorder', require('./api/allorder'));
+
+  app.use('/api/pakage', require('./api/pakage'));
    
 };

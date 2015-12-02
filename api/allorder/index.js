@@ -8,4 +8,3 @@ var router = express.Router();
 router.get('/:store/:query', controller.get);
 
 module.exports = router;
-

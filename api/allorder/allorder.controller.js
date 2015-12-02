@@ -15,7 +15,7 @@ var get = function(req, res) {
 
     AllOrder.getData(url)
         .then(function(response) {
-          var data = response.
+          
             
             res.status(200).send(response);
         }, function(err) {
