@@ -33,6 +33,7 @@ var postData = function(url, data) {
   var options = _.assign(config.oms.options);
   
   var sendData = '';
+
   _.each(data, function(value, key) {
     if (typeof value === 'object') {
       sendData += key + '=' + encodeURIComponent(JSON.stringify(value)) + '&';
@@ -45,8 +46,8 @@ var postData = function(url, data) {
   options.headers = {};
   options.headers['Content-Length'] = sendData.length;
   options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-  options.path =  url;
   options.method = "POST";
+  options.path =  url;
 
 
   var body = '';

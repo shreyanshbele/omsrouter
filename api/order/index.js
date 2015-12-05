@@ -1,10 +1,10 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./allorder.controller');
+var controller = require('./order.controller');
 
 var router = express.Router();
 
-router.get('/:store/:query', controller.get);
+router.get('/query', controller.get);
 
 module.exports = router;

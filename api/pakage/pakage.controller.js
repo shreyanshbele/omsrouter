@@ -21,19 +21,21 @@ var get = function(req, res) {
 
 };
 
-var post = function(req,res) {
+var post = function(req, res) {
 
-    var url = config.oms.apiversion + '/n3ow/consignment/'
-        + req.body.consignmentID +'/packagingType?value='+ req.body.packagingType;
-      
-      console.log(url);
-      var data ={'value':req.body.packagingType};
-      
-  Pakage.postData(url,data).then(function(response) {
-    res.status(200).send(response);
-  }, function(err) {
-    res.status(500).send(err);
-  });
+    var url = config.oms.apiversion + '/n3ow/consignment/' + req.body.consignmentID + '/packagingType?value=' + req.body.packagingType;
+
+    console.log(url);
+    var data = {
+        'value': req.body.packagingType
+    };
+
+    Pakage.postData(url, data).
+    then(function(response) {
+        res.status(200).send(response);
+    }, function(err) {
+        res.status(500).send(err);
+    });
 };
 
 exports.get = get;
