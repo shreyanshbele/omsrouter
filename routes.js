@@ -25,5 +25,8 @@ module.exports = function(app) {
   
 
   app.use('/api/consignment', require('./api/consignment'));
+  
+
+  app.use('/api/item', require('./api/item'));
    
 };

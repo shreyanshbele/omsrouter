@@ -11,7 +11,7 @@ var get = function(req, res) {
 
     var url = config.oms.url + config.oms.apiversion + '/n3ow/packaging';
 
-
+   
     Pakage.getData(url)
         .then(function(response) {
             res.status(200).send(response);
@@ -23,7 +23,7 @@ var get = function(req, res) {
 
 var post = function(req, res) {
 
-    var url = config.oms.apiversion + '/n3ow/consignment/' + req.body.consignmentID + '/packagingType?value=' + req.body.packagingType;
+    var url = config.oms.url+config.oms.apiversion + '/n3ow/consignment/' + req.body.consignmentID + '/packagingType?value=' + req.body.packagingType;
 
     console.log(url);
     var data = {

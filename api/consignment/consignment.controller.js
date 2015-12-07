@@ -199,6 +199,9 @@ var getProcessed = function(req, res) {
 
                 processedItemInstance['itemID'] = currentItem['itemId'];
                 processedItemInstance['itemPicked'] = false;
+                processedItemInstance['itemQCPass'] = false;
+                processedItemInstance['itemQCComment'] = '';
+                processedItemInstance['qcfailReason'] = '';
                 processedItemInstance['itemStatus'] = currentItem['itemStatus']['name'];
 
                 var mboitemDetail = currentItem['mboProducts'][0];
@@ -247,10 +250,12 @@ var getProcessed = function(req, res) {
                 // store in this object
                 var finalObject = {};
                 // process i th item
+                
                 var currentItem = finaldata[i]; 
-                var commonData = currentItem['commonData'];
-                            
+                
+                finalObject['itemIDs'] = currentItem['itemIDs'];   
 
+                var commonData = currentItem['commonData'];
                 finalObject['itemStatus'] = commonData['itemStatus'];
                 finalObject['skuID'] = commonData['skuID'];
                 finalObject['brand'] = commonData['brand'];
@@ -259,32 +264,23 @@ var getProcessed = function(req, res) {
                 finalObject['mrp'] = commonData['mrp'];
                 finalObject['image'] = commonData['image'];
                 finalObject['styleCode'] = commonData['styleCode'];
-                finalObject['quantityOrder'] = commonData['quantityOrder'];
+                finalObject['quantityOrder'] = currentItem['itemIDs'].length;
+                finalObject['quantityPickFail'] = currentItem['itemIDs'].length;
                 finalObject['quantityPicked'] = commonData['quantityPicked'];
-                finalObject['quantityPickFail'] = commonData['quantityPickFail'];
+
+                // Commenting because pickfail + pick = quantity order
+                //finalObject['quantityPickFail'] = commonData['quantityPickFail'];
+
+
                 finalObject['quantityQCFail'] = commonData['quantityQCFail'];
 
                 //Push itemids directly..
 
-                finalObject['itemIDs'] = currentItem['itemIDs'];
+                
 
                 //Push to array
                 processedData['items'].push(finalObject);
             };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
