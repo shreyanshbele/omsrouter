@@ -8,8 +8,11 @@ var put = function(req, res) {
     var url = config.oms.url + config.oms.apiversion +
         '/n3ow/consignment/' + req.params.consignmentID + '/orderLines/status';
     
+    console.log(url);
     var data = {};
     data['orderLines'] = req.body.orderLines;
+
+  
     
     ItemService.putData(url, data).then(function(response) {
         res.status(200).send(response)

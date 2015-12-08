@@ -26,11 +26,11 @@ var putData = function(url, data) {
     options.headers = {};
     options.headers['Content-Length'] = sendData.length;
     options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    options.method = "POST";
+    options.method = "PUT";
     options.path = url;
 
 
-    var request = http.request(options, function(response) {
+    var request = https.request(options, function(response) {
 
 
         response.on('data', function(chunk) {

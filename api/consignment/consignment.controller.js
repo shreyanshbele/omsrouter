@@ -16,6 +16,8 @@ var get = function(consignmentID) {
         .then(function(response) {
 
             response = JSON.parse(response);
+            console.log('Consignment Details');
+            console.log(response);
             var processedData = {};
 
             processedData['orderId'] = response['orderId'];
@@ -62,12 +64,16 @@ var get = function(consignmentID) {
 
             var sumofConsignment = 0;
 
+            var discountedsumofConsignment = 0 ;
+
             for (var item in itemsArrray) {
 
                 sumofConsignment = sumofConsignment + parseInt(itemsArrray[item]['priceDetails']['price']);
+                discountedsumofConsignment = discountedsumofConsignment + parseInt(itemsArrray[item]['priceDetails']['finalPrice']);
             };
 
             processedData['consignmentValue'] = sumofConsignment;
+            processedData['discountedsum'] = discountedsumofConsignment;
             processedData['orderDate'] = response['orderDate'];
             processedData['customerName'] = response['customer']['firstName'] + ' ' + response['customer']['lastName'];
             processedData['orderStatus'] = response['orderStatus']['orderStatus'];
@@ -203,6 +209,8 @@ var getProcessed = function(req, res) {
                 processedItemInstance['itemQCComment'] = '';
                 processedItemInstance['qcfailReason'] = '';
                 processedItemInstance['itemStatus'] = currentItem['itemStatus']['name'];
+                processedItemInstance['discountPrice'] = currentItem['priceDetails']['finalPrice'];
+
 
                 var mboitemDetail = currentItem['mboProducts'][0];
                 processedItemInstance['skuID'] = mboitemDetail['sku'];
@@ -211,6 +219,8 @@ var getProcessed = function(req, res) {
                 processedItemInstance['color'] = mboitemDetail['color'];
                 processedItemInstance['mrp'] = mboitemDetail['mrp'];
                 processedItemInstance['image'] = mboitemDetail['img'];
+
+
 
                 processedItemInstance['styleCode'] = mboitemDetail['mboProductId'];
 
@@ -237,7 +247,7 @@ var getProcessed = function(req, res) {
                 'color',
                 'mrp',
                 'image',
-
+                'discountPrice',
                 'styleCode',
 
                 'quantityOrder',
@@ -262,6 +272,7 @@ var getProcessed = function(req, res) {
                 finalObject['size'] = commonData['size'];
                 finalObject['color'] = commonData['color'];
                 finalObject['mrp'] = commonData['mrp'];
+                finalObject['discountPrice'] = commonData['discountPrice'];
                 finalObject['image'] = commonData['image'];
                 finalObject['styleCode'] = commonData['styleCode'];
                 finalObject['quantityOrder'] = currentItem['itemIDs'].length;
