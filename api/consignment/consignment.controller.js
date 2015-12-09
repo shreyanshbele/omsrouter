@@ -204,10 +204,10 @@ var getProcessed = function(req, res) {
                 var currentItem = itemsArrray[i];
 
                 processedItemInstance['itemID'] = currentItem['itemId'];
-                processedItemInstance['itemPicked'] = false;
+                processedItemInstance['itemPicked'] = true;
                 processedItemInstance['itemQCPass'] = false;
                 processedItemInstance['itemQCComment'] = '';
-                processedItemInstance['qcfailReason'] = '';
+                processedItemInstance['qcfailReason'] = 2;
                 processedItemInstance['itemStatus'] = currentItem['itemStatus']['name'];
                 processedItemInstance['discountPrice'] = currentItem['priceDetails']['finalPrice'];
 
@@ -288,7 +288,7 @@ var getProcessed = function(req, res) {
                 //Push itemids directly..
 
                 
-
+                console.log(finalObject['itemIDs']);
                 //Push to array
                 processedData['items'].push(finalObject);
             };

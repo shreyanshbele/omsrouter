@@ -28,5 +28,8 @@ module.exports = function(app) {
   
 
   app.use('/api/item', require('./api/item'));
+  
+
+  app.use('/api/reason', require('./api/reason'));
    
 };
