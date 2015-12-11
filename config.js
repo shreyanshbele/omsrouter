@@ -6,10 +6,10 @@
 module.exports = {
 
     oms: {
-        url: "https://demo9569815.mockable.io",
+        url: "https://private-c51f14-optimusprime.apiary-mock.com",
         apiversion: '/api/v1.01',
         options: {
-            host: 'https://demo9569815.mockable.io',
+            host: 'http://private-c51f14-optimusprime.apiary-mock.com',
             port: 443
         }
     },

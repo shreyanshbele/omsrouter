@@ -7,4 +7,7 @@ var router = express.Router();
 
 router.get('/query', controller.get);
 
+router.get('/consigment/:orderID', controller.getConsignmentList);
+
+
 module.exports = router;

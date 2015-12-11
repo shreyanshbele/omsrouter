@@ -51,7 +51,7 @@ var putData = function(url, data) {
 };
 
 var getData = function(url){
-    
+        console.log(url);
         var deffered = q.defer();
         try{
             var body ='';

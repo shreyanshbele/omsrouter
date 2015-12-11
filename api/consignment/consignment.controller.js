@@ -6,10 +6,10 @@ var config = require('../../config');
 var querystring = require('querystring');
 var ConsignmentService = require('./consignment.service.js');
 
-var get = function(consignmentID) {
+var get = function(consignmentID) { // Called For Order Page
 
 
-    var url = config.oms.url + '/api/n3ow/v1.01/consignment/' + consignmentID;
+    var url = config.oms.url + config.oms.apiversion + '/n3ow/consignment/' + consignmentID;
 
     console.log(url);
     return ConsignmentService.getData(url)
@@ -128,18 +128,14 @@ var DataGrouper = (function() {
 
 
 
-var getProcessed = function(req, res) {
+var getProcessed = function(req, res) { // For Detail Page
 
 
-    var url = config.oms.url + '/api/n3ow/v1.01/consignment/' + req.params.consignmentID;
+    var url = config.oms.url + config.oms.apiversion + '/n3ow/consignment/' + req.params.consignmentID;
     console.log(url);
     ConsignmentService.getData(url)
         .then(function(response) {
-            /////////
-           
-  
-
-
+            
             response = JSON.parse(response);
             var processedData = {};
 

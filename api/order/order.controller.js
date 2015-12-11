@@ -55,8 +55,6 @@ var get = function(req, res) {
                 console.log(responseQ);
 
 
-                console.log('Array' + returnOrderArray.length);
-                console.log('Final response 2');
 
                 response.content = returnOrderArray;
                 res.status(200).send(response);
@@ -69,5 +67,27 @@ var get = function(req, res) {
 
 };
 
+var getConsignmentList = function(req, res) {
+
+
+    var url = config.oms.url + config.oms.apiversion + '/n3ow/orders/' + req.params.orderID + '/?fields=consignments.consignmentId';
+
+    console.log(url);
+
+    Order.getData(url)
+        .then(function(response) {
+
+            var response = JSON.parse(response);
+            var consignmentObject = response.consignments[0];
+            res.status(200).send(consignmentObject);
+        }, function(err) {
+            res.status(500).send(err);
+        });
+
+
+};
+
+
 
 exports.get = get;
+exports.getConsignmentList = getConsignmentList;
