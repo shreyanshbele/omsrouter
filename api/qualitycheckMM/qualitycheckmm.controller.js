@@ -2,21 +2,21 @@
 
 var config = require('../../config');
 var ConsignmentService = require('../consignment/consignment.service.js');
-var ConsolidationService = require('./consolidation.service');
+var ConsolidationService = require('./qualitycheckmm.service');
 var q = require('q');
 
-var get = function(req, res) {
-    // Return item ID  And Consignment ID
+var pickByHUCode = function(req, res) {
+    // Get item ID  And Consignment ID
     // Update the Item In UI
 
     var itemID = '';
     var consignmentID = '';
     var data = {};
     var urlWHID = config.oms.url + config.oms.apiversion +
-        '/n3ow/warehouseItemId/' + req.params.huCode + '/orderItemId';
+        '/n3ow/warehouseItemId/' + req.body.id + '/orderItemId';
 
     var urlConsignementID = config.oms.url + config.oms.apiversion +
-        '/n3ow/warehouseItemId/' + req.params.huCode + '/consignmentId';
+        '/n3ow/warehouseItemId/' + req.body.id + '/consignmentId';
 
     var deffered = q.defer();
     var promises = [];
@@ -34,6 +34,37 @@ var get = function(req, res) {
         res.status(500).send(error);
     });
 };
+
+var pickByEANCode = function(req, res) {
+    // Get item ID  And Consignment ID
+    // Update the Item In UI
+
+    var itemID = '';
+    var consignmentID = '';
+    var data = {};
+    var urlWHID = config.oms.url + config.oms.apiversion +
+        '/n3ow/warehouseItemId/' + req.body.id + '/orderItemId';
+
+    var urlConsignementID = config.oms.url + config.oms.apiversion +
+        '/n3ow/warehouseItemId/' + req.body.id + '/consignmentId';
+
+    var deffered = q.defer();
+    var promises = [];
+
+    promises.push(ConsolidationService.getData(urlWHID));
+    promises.push(ConsolidationService.getData(urlConsignementID));
+
+    q.all(promises).then(function(response) {
+        data['orderItemId'] = JSON.parse(response[0])['orderItemId'];
+        data['consignmentId'] = JSON.parse(response[1])['consignmentId'];
+        console.log(data);
+        res.status(200).send(data);
+    }, function(error) {
+        // Process Some 
+        res.status(500).send(error);
+    });
+};
+
 
 var getDetail = function(res, req) {
 
@@ -140,8 +171,19 @@ var getDetail = function(res, req) {
 
 };
 
+var get = function(res, req) {
 
 
-exports.get = get;
+    var url = config.oms.url + '/api/n3ow/v1.01/consignment/' + res.params.consignmentID;
+    console.log(url);
+    req.status(200).send("Hii");
 
+};
+
+
+
+
+exports.pickByHUCode = pickByHUCode;
+exports.pickByEANCode = pickByEANCode;
 exports.getDetail = getDetail;
+exports.get = get;

@@ -2,21 +2,23 @@
 
 var config = require('../../config');
 var ConsignmentService = require('../consignment/consignment.service.js');
-var ConsolidationService = require('./consolidation.service');
+var ConsolidationService = require('./consolidationmm.service');
 var q = require('q');
 
+
+
 var get = function(req, res) {
-    // Return item ID  And Consignment ID
+    // Get item ID  And Consignment ID
     // Update the Item In UI
 
     var itemID = '';
     var consignmentID = '';
     var data = {};
     var urlWHID = config.oms.url + config.oms.apiversion +
-        '/n3ow/warehouseItemId/' + req.params.huCode + '/orderItemId';
+        '/n3ow/warehouseItemId/' + req.params.eanID + '/orderItemId';
 
     var urlConsignementID = config.oms.url + config.oms.apiversion +
-        '/n3ow/warehouseItemId/' + req.params.huCode + '/consignmentId';
+        '/n3ow/warehouseItemId/' + req.params.eanID + '/consignmentId';
 
     var deffered = q.defer();
     var promises = [];
@@ -35,12 +37,13 @@ var get = function(req, res) {
     });
 };
 
-var getDetail = function(res, req) {
 
+var getDetail = function(res, req) {
+    // same as the consolidation Page
     // Get Details And Slot ID
     var urlConsignmentDetail = config.oms.url + config.oms.apiversion + '/n3ow/consignment/' + res.params.consignmentID;
     var data = {};
-
+    // For Slot Details 
     var slotURL = config.oms.url + config.oms.apiversion + '/consignment/' + res.params.consignmentID + '/slot';
 
     var deffered = q.defer();
@@ -141,7 +144,5 @@ var getDetail = function(res, req) {
 };
 
 
-
-exports.get = get;
-
 exports.getDetail = getDetail;
+exports.get = get;

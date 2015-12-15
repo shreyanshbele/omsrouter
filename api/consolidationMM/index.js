@@ -1,10 +1,11 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./consolidation.controller');
+var controller = require('./consolidationmm.controller');
 var router = express.Router();
 
-router.get('/huCode/:huCode', controller.get);
+
+router.get('/eanCode/:eanID', controller.get);
 
 router.get('/detail/:consignmentID', controller.getDetail);
 

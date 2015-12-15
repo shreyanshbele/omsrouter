@@ -33,5 +33,13 @@ module.exports = function(app) {
   app.use('/api/reason', require('./api/reason'));
   
   app.use('/api/consolidation', require('./api/consolidation'));
+  
+
+  app.use('/api/consolidationmm', require('./api/consolidationMM'));
+
+  app.use('/api/qualitycheck', require('./api/qualitycheck'));
+  
+  
+  app.use('/api/qualitycheckmm', require('./api/qualitycheckMM'));
    
 };
