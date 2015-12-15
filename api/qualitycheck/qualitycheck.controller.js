@@ -100,9 +100,10 @@ var getDetail = function(res, req) {
 
             //if(itemPASS OR FAIL ){} Based On Status
 
-            processedItemInstance['itemStatus'] = currentItem['itemStatus']['name'];
+           //processedItemInstance['itemStatus'] = currentItem['itemStatus']['name'];
+            processedItemInstance['itemStatus'] = 3;
 
-            processedItemInstance['actionTaken'] = false;
+            processedItemInstance['actionTaken'] = true;
 
             processedItemInstance['showButton'] = false;
 

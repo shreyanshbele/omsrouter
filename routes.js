@@ -41,5 +41,7 @@ module.exports = function(app) {
   
   
   app.use('/api/qualitycheckmm', require('./api/qualitycheckMM'));
+  
+  app.use('/api/slot', require('./api/slot'));
    
 };
