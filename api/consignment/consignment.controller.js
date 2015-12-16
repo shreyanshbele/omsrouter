@@ -64,7 +64,7 @@ var get = function(consignmentID) { // Called For Order Page
 
             var sumofConsignment = 0;
 
-            var discountedsumofConsignment = 0 ;
+            var discountedsumofConsignment = 0;
 
             for (var item in itemsArrray) {
 
@@ -110,7 +110,7 @@ var DataGrouper = (function() {
         return _.map(stems, function(stem) {
             return {
                 commonData: stem,
-                itemIDs:_.map(_.where(data, stem), function(item) {
+                itemIDs: _.map(_.where(data, stem), function(item) {
                     return _.omit(item, names);
                 })
             };
@@ -135,14 +135,14 @@ var getProcessed = function(req, res) { // For Detail Page
     console.log(url);
     ConsignmentService.getData(url)
         .then(function(response) {
-            
+
             response = JSON.parse(response);
             var processedData = {};
 
             // Customer Details
-            processedData['customerDetails'] ={};
+            processedData['customerDetails'] = {};
             processedData['customerDetails']['name'] = response['customer']['firstName'] + ' ' + response['customer']['lastName'];
-            processedData['customerDetails']['mailID'] ='';
+            processedData['customerDetails']['mailID'] = '';
             processedData['customerDetails']['phoneNumber'] = '';
 
 
@@ -152,10 +152,10 @@ var getProcessed = function(req, res) { // For Detail Page
             var itemsArrray = firstConsignment['items'];
             var firstItem = itemsArrray[0];
 
-            
+
             //Logistic Object
             var logistic = firstItem['logistics'];
-            
+
 
 
             var priceDetails = firstItem['priceDetails'];
@@ -168,31 +168,31 @@ var getProcessed = function(req, res) { // For Detail Page
                 sumofConsignment = sumofConsignment + parseInt(itemsArrray[item]['priceDetails']['price']);
             };
 
-            processedData['consignmentDetails'] ={};
+            processedData['consignmentDetails'] = {};
             processedData['consignmentDetails']['orderID'] = response['orderId'];
-            processedData['consignmentDetails']['orderDate'] =response['orderDate'];
+            processedData['consignmentDetails']['orderDate'] = response['orderDate'];
             processedData['consignmentDetails']['orderStatus'] = response['orderStatus']['orderStatus'];
 
             processedData['consignmentDetails']['consignmentID'] = firstConsignment['consignmentId'];
             processedData['consignmentDetails']['consignmentItemCount'] = firstConsignment['count'];
-            
-            
-            
+
+
+
 
             processedData['consignmentDetails']['shippingPatner'] = logistic['logisticsPartner'];
             processedData['consignmentDetails']['logisticsLink'] = logistic['logisticsLink'];
             processedData['consignmentDetails']['deliveryType'] = logistic['deliveryType'];
             processedData['consignmentDetails']['shipmentID'] = logistic['shipmentId'];
             processedData['consignmentDetails']['delieveryDate'] = logistic['deliveryDate'];
-            
+
             processedData['consignmentDetails']['totalCost'] = sumofConsignment;
-            processedData['consignmentDetails']['orderingStore'] = '';  
-            processedData['consignmentDetails']['consignmentStatus'] = '';// need To confirm
-            
- 
+            processedData['consignmentDetails']['orderingStore'] = '';
+            processedData['consignmentDetails']['consignmentStatus'] = ''; // need To confirm
+
+
             // Process Data For Items
             var itemsProcessedArray = [];
-            
+
             for (var i in itemsArrray) {
                 // store in this object
                 var processedItemInstance = {};
@@ -232,34 +232,35 @@ var getProcessed = function(req, res) { // For Detail Page
             processedData['items'] = [];
 
             /// Group The data
-            var finaldata = 
+            var finaldata =
 
-            DataGrouper(itemsProcessedArray, [
-                
-                'itemStatus',
-                'skuID',
-                'brand',
-                'size',
-                'color',
-                'mrp',
-                'image',
-                'discountPrice',
-                'styleCode',
+                DataGrouper(itemsProcessedArray, [
 
-                'quantityOrder',
-                'quantityPicked',
-                'quantityPickFail',
-                'quantityQCFail']);
+                    'itemStatus',
+                    'skuID',
+                    'brand',
+                    'size',
+                    'color',
+                    'mrp',
+                    'image',
+                    'discountPrice',
+                    'styleCode',
+
+                    'quantityOrder',
+                    'quantityPicked',
+                    'quantityPickFail',
+                    'quantityQCFail'
+                ]);
 
             // Process the group data
             for (var i in finaldata) {
                 // store in this object
                 var finalObject = {};
                 // process i th item
-                
-                var currentItem = finaldata[i]; 
-                
-                finalObject['itemIDs'] = currentItem['itemIDs'];   
+
+                var currentItem = finaldata[i];
+
+                finalObject['itemIDs'] = currentItem['itemIDs'];
 
                 var commonData = currentItem['commonData'];
                 finalObject['itemStatus'] = commonData['itemStatus'];
@@ -283,7 +284,7 @@ var getProcessed = function(req, res) { // For Detail Page
 
                 //Push itemids directly..
 
-                
+
                 console.log(finalObject['itemIDs']);
                 //Push to array
                 processedData['items'].push(finalObject);
@@ -292,7 +293,7 @@ var getProcessed = function(req, res) { // For Detail Page
 
 
             console.log('Information Details For Consigment ID ' + processedData['consignmentId']);
-            
+
             console.log(processedData);
 
             return res.status(200).send(processedData);
@@ -304,9 +305,56 @@ var getProcessed = function(req, res) { // For Detail Page
 
 
 
+var getConsignmentWithCount = function(consignmentID) { // Called For Order Page
 
+
+    var url = config.oms.url + config.oms.apiversion + '/n3ow/consignment/' + consignmentID;
+
+    console.log(url);
+    return ConsignmentService.getData(url)
+        .then(function(response) {
+
+            response = JSON.parse(response);
+            console.log('Consignment Details');
+            console.log(response);
+            var processedData = {};
+
+            processedData['orderId'] = response['orderId'];
+            processedData['orderDate'] = response['orderDate'];
+
+            // Consignment Details Processed
+
+            var consignmentArray = response['consignments'];
+            var firstConsignment = consignmentArray[0];
+
+
+            var itemsArrray = firstConsignment['items'];
+
+
+            var firstItem = itemsArrray[0];
+
+            //Logistic Object
+            var logistic = firstItem['logistics'];
+
+            processedData['deliveryType'] = logistic['deliveryType'];
+
+
+
+            processedData['consignmentId'] = firstConsignment['consignmentId'];
+
+
+            processedData['consignmentItemCount'] = firstConsignment['count'];
+
+            console.log('Information Details For Consigment ID' + processedData['consignmentId']);
+            console.log(processedData);
+
+            return processedData;
+        }, function(err) {
+            return err;
+        });
+
+};
 
 exports.get = get;
 exports.getProcessed = getProcessed;
-
-
+exports.getConsignmentWithCount = getConsignmentWithCount;
