@@ -32,7 +32,7 @@ var get = function(req, res) {
 
             var allConsignents = JSON.parse(response);
             response = JSON.parse(response);
-            allConsignents = allConsignents.content;
+            allConsignents = allConsignents.consignment;
             console.log(allConsignents);
             var defered = q.defer();
             var promises = [];
@@ -56,7 +56,7 @@ var get = function(req, res) {
 
 
 
-                response.content = returnOrderArray;
+                response.consignment = returnOrderArray;
                 res.status(200).send(response);
                 // do things after your inner functions run 
             });
